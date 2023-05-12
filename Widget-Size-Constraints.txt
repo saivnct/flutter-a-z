@@ -1,0 +1,19 @@
+Widget Size Constraints:
+- Widgets get sized based on their size 'preferences' & parent widget 'size constraints'
+
+
+1. Scaffold:
+	- Constraints:
+		- height: max device height
+		- width: max device width
+
+2. Column:
+	- Preferences:
+		- height: as much as possible (INFINITY)	=> must inside a parent that restricts the height, otherwise it would go outside of the screen boundaries
+		- width: as much as needed by children
+
+
+3. Row:
+	- Preferences:
+		- height: as much as needed by children
+		- width: as much as possible (INFINITY)

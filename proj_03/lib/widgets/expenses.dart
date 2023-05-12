@@ -30,6 +30,8 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      useSafeArea: true, //force show in safe Area
+      isScrollControlled: true, //force modal show full screen
       context: context,
       builder: (ctx) => NewExpense(
         onAddExpense: _addExpense,
@@ -73,12 +75,16 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
-    Widget mainContent = const Center(
+    //the build() method is executed again when device is rotated
+
+    final width = MediaQuery.of(context).size.width;
+
+    Widget listItemContent = const Center(
       child: Text('Empty List'),
     );
 
     if (_registerExpenses.isNotEmpty) {
-      mainContent = ExpensesList(
+      listItemContent = ExpensesList(
         expenses: _registerExpenses,
         onRemoveExpense: _removeExpense,
       );
@@ -96,15 +102,27 @@ class _ExpensesState extends State<Expenses> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          // Toolbar with the Add button
-          Chart(expenses: _registerExpenses),
-          Expanded(
-            child: mainContent,
-          ),
-        ],
-      ),
+      body: width < 600
+          ? Column(
+              children: [
+                // Toolbar with the Add button
+                Chart(expenses: _registerExpenses),
+                Expanded(
+                  child: listItemContent,
+                ),
+              ],
+            )
+          : Row(
+              children: [
+                // Expanded constraints the child to only takes as much width as available in the Row after resizing the other Row children
+                Expanded(
+                  child: Chart(expenses: _registerExpenses),
+                ),
+                Expanded(
+                  child: listItemContent,
+                ),
+              ],
+            ),
     );
     ;
   }
