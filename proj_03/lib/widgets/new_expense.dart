@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:proj_03/models/expense.dart';
@@ -48,12 +51,24 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
-  void _submitNewExpense() {
-    final amount = double.tryParse(_amountController.text);
-    final amountIsInvalid = amount == null || amount <= 0;
-    if (_titleController.text.trim().isEmpty ||
-        amountIsInvalid ||
-        _selectedDate == null) {
+  void _showDialog() {
+    if (Platform.isIOS) {
+      showCupertinoDialog(
+        context: context,
+        builder: (ctx) => CupertinoAlertDialog(
+          title: const Text('Invalid input'),
+          content: const Text('Please insert valid data!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('OK'),
+            )
+          ],
+        ),
+      );
+    } else {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -69,6 +84,16 @@ class _NewExpenseState extends State<NewExpense> {
           ],
         ),
       );
+    }
+  }
+
+  void _submitNewExpense() {
+    final amount = double.tryParse(_amountController.text);
+    final amountIsInvalid = amount == null || amount <= 0;
+    if (_titleController.text.trim().isEmpty ||
+        amountIsInvalid ||
+        _selectedDate == null) {
+      _showDialog();
       return;
     }
 
@@ -86,97 +111,191 @@ class _NewExpenseState extends State<NewExpense> {
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
 
     return LayoutBuilder(builder: (context, constraints) {
-      print(constraints.minWidth);
-      print(constraints.maxWidth);
-      print(constraints.minHeight);
-      print(constraints.maxHeight);
+      // print(constraints.minWidth);
+      // print(constraints.maxWidth);
+      // print(constraints.minHeight);
+      // print(constraints.maxHeight);
+      final maxWidth = constraints.maxWidth;
 
       return SizedBox(
         height: double.infinity,
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(16, 16, 16, keyboardSpace + 16),
-            child: Column(
-              children: [
-                TextField(
-                  controller: _titleController,
-                  maxLength: 50,
-                  decoration: const InputDecoration(
-                    label: Text('Title'),
-                  ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _amountController,
-                        keyboardType: TextInputType.number,
+            child: maxWidth >= 600
+                ? Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _titleController,
+                              maxLength: 50,
+                              decoration: const InputDecoration(
+                                label: Text('Title'),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 24,
+                          ),
+                          Expanded(
+                            child: TextField(
+                              controller: _amountController,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                prefixText: '\$ ',
+                                label: Text('Amount'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          DropdownButton(
+                            value: _selectedCategory,
+                            items: Category.values
+                                .map(
+                                  (category) => DropdownMenuItem(
+                                    value: category,
+                                    child: Text(category.name.toUpperCase()),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (value) {
+                              if (value == null) {
+                                return;
+                              }
+
+                              setState(() {
+                                _selectedCategory = value;
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            width: 24,
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(_selectedDate == null
+                                    ? 'No date selected'
+                                    : formatter.format(_selectedDate!)),
+                                IconButton(
+                                  onPressed: _presentDatePicker,
+                                  icon: const Icon(Icons.calendar_month),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        children: [
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          ElevatedButton(
+                            onPressed: _submitNewExpense,
+                            child: const Text('Save Expense'),
+                          ),
+                          const Spacer(),
+                        ],
+                      )
+                    ],
+                  )
+                : Column(
+                    children: [
+                      TextField(
+                        controller: _titleController,
+                        maxLength: 50,
                         decoration: const InputDecoration(
-                          prefixText: '\$ ',
-                          label: Text('Amount'),
+                          label: Text('Title'),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      Row(
                         children: [
-                          Text(_selectedDate == null
-                              ? 'No date selected'
-                              : formatter.format(_selectedDate!)),
-                          IconButton(
-                            onPressed: _presentDatePicker,
-                            icon: const Icon(Icons.calendar_month),
+                          Expanded(
+                            child: TextField(
+                              controller: _amountController,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                prefixText: '\$ ',
+                                label: Text('Amount'),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(_selectedDate == null
+                                    ? 'No date selected'
+                                    : formatter.format(_selectedDate!)),
+                                IconButton(
+                                  onPressed: _presentDatePicker,
+                                  icon: const Icon(Icons.calendar_month),
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  children: [
-                    DropdownButton(
-                      value: _selectedCategory,
-                      items: Category.values
-                          .map(
-                            (category) => DropdownMenuItem(
-                              value: category,
-                              child: Text(category.name.toUpperCase()),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        if (value == null) {
-                          return;
-                        }
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        children: [
+                          DropdownButton(
+                            value: _selectedCategory,
+                            items: Category.values
+                                .map(
+                                  (category) => DropdownMenuItem(
+                                    value: category,
+                                    child: Text(category.name.toUpperCase()),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (value) {
+                              if (value == null) {
+                                return;
+                              }
 
-                        setState(() {
-                          _selectedCategory = value;
-                        });
-                      },
-                    ),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Cancel'),
-                    ),
-                    ElevatedButton(
-                      onPressed: _submitNewExpense,
-                      child: const Text('Save Expense'),
-                    )
-                  ],
-                )
-              ],
-            ),
+                              setState(() {
+                                _selectedCategory = value;
+                              });
+                            },
+                          ),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          ElevatedButton(
+                            onPressed: _submitNewExpense,
+                            child: const Text('Save Expense'),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
           ),
         ),
       );

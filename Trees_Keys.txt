@@ -1,0 +1,22 @@
+3 type of trees:
+    - Widget tree
+        - Combination of widgets in your code
+        - build() is called very frequently to check for required updates
+    - Element tree
+        - In-memory representation of your widgets
+        - Flutter take Widget tree -> translate into Element tree
+        - Used for determining necessary UI updates
+        - Elements are re-used if possible, they're not re-created all the time. 
+            - Elements're created initially when a widget's build() called for 1st time
+            - For subsequent caused of widget's build() called , elements are instead reused
+            - Element tree will determine which UI should be rerendered
+    - Render tree
+        - The visible UI buiding blocks
+        - Updated when determined via Element tree comparisons
+        - Only (partially) re-rendered if UI updates are needed
+
+
+
+Keys: using key(identification criteria) allow flutter to match Elements to Widgets, make sure every Widget has exactly the Element with exactly the State it needs
+    - ValueKey() - any kind of value can be key (number, string ...)
+    - ObjectKey() - object as a key
