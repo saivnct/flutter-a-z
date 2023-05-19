@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
+enum DrawerPageIdentifier {
+  meals,
+  filters,
+}
+
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key, required this.onSelectScreen});
 
-  final void Function(String identifier) onSelectScreen;
+  final void Function(DrawerPageIdentifier identifier) onSelectScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +62,7 @@ class MainDrawer extends StatelessWidget {
                   ),
             ),
             onTap: () {
-              onSelectScreen('meals');
+              onSelectScreen(DrawerPageIdentifier.meals);
             },
           ),
           ListTile(
@@ -74,7 +79,7 @@ class MainDrawer extends StatelessWidget {
                   ),
             ),
             onTap: () {
-              onSelectScreen('filters');
+              onSelectScreen(DrawerPageIdentifier.filters);
             },
           ),
         ],

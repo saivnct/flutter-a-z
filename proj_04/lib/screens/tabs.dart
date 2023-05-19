@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:proj_04/data/dummy_data.dart';
 import 'package:proj_04/models/meal.dart';
 import 'package:proj_04/screens/categories.dart';
+import 'package:proj_04/screens/filter.dart';
 import 'package:proj_04/screens/meals.dart';
 import 'package:proj_04/widgets/drawer/main_drawer.dart';
+
+const defaultFilters = {
+  Filter.glutenFee: false,
+  Filter.lactoseFree: false,
+  Filter.vegetarian: false,
+  Filter.vegan: false,
+};
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -16,6 +25,7 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
   final List<Meal> _favoriteMeals = [];
+  Map<Filter, bool> _selectedFilters = defaultFilters;
 
   void _showInfoMsg(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -47,13 +57,61 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
-  void _setScreen(String identifier) {}
+  void _setScreen(DrawerPageIdentifier identifier) async {
+    //close the drawer
+    Navigator.of(context).pop();
+    if (identifier == DrawerPageIdentifier.filters) {
+      //incase we want to setup a Drawer in 'FilterScreen'
+      //if we only use Navigator.push() -> new 'FilterScreen' will be push into Screen Stack ontop of current 'TabsScreen'
+      //replace current 'TabsScreen' in Screen Stack by 'FilterScreen'
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (ctx) => const FilterScreen(),
+      //   ),
+      // );
+
+      //get the result wen navigate back from FilterScreen
+      final result = await Navigator.push<Map<Filter, bool>>(
+        context,
+        MaterialPageRoute(
+          builder: (ctx) => FilterScreen(
+            currentFilters: _selectedFilters,
+          ),
+        ),
+      );
+
+      setState(() {
+        _selectedFilters = result ?? defaultFilters;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final filteredMeals = dummyMeals.where((meal) {
+      if (_selectedFilters[Filter.glutenFee]! && !meal.isGlutenFree) {
+        return false;
+      }
+
+      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
+        return false;
+      }
+
+      if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian) {
+        return false;
+      }
+
+      if (_selectedFilters[Filter.vegan]! && !meal.isVegan) {
+        return false;
+      }
+
+      return true;
+    }).toList();
+
     String activePageTitle = 'Categories';
-    Widget activePage =
-        CategoriesScreen(onToggleFavorite: _toggleMealFavoriteStatus);
+    Widget activePage = CategoriesScreen(
+        meals: filteredMeals, onToggleFavorite: _toggleMealFavoriteStatus);
 
     if (_selectedPageIndex == 1) {
       activePageTitle = 'Your Favorites';
