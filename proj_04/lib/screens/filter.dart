@@ -1,43 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:proj_04/providers/filters_provider.dart';
 // import 'package:proj_04/screens/tabs.dart';
 // import 'package:proj_04/widgets/drawer/main_drawer.dart';
 
-enum Filter {
-  glutenFee,
-  lactoseFree,
-  vegetarian,
-  vegan,
-}
-
-class FilterScreen extends StatefulWidget {
-  const FilterScreen({
-    super.key,
-    required this.currentFilters,
-  });
-
-  final Map<Filter, bool> currentFilters;
+class FilterScreen extends ConsumerStatefulWidget {
+  const FilterScreen({super.key});
 
   @override
-  State<FilterScreen> createState() {
+  ConsumerState<FilterScreen> createState() {
     return _FilterScreenState();
   }
 }
 
-class _FilterScreenState extends State<FilterScreen> {
+class _FilterScreenState extends ConsumerState<FilterScreen> {
   //because we cannot access 'widget' here => we must override  initState() to access it!!!
   var _glutenFreeFilterSet = false;
   var _lactoseFreeFilterSet = false;
   var _vegetarianFilterSet = false;
   var _veganFilterSet = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _glutenFreeFilterSet = widget.currentFilters[Filter.glutenFee]!;
-    _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree]!;
-    _vegetarianFilterSet = widget.currentFilters[Filter.vegetarian]!;
-    _veganFilterSet = widget.currentFilters[Filter.vegan]!;
-  }
 
   // void _setScreen(DrawerPageIdentifier identifier) {
   //   //close the drawer
@@ -56,6 +37,12 @@ class _FilterScreenState extends State<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedFilters = ref.watch(filtersProvider);
+    _glutenFreeFilterSet = selectedFilters[Filter.glutenFee]!;
+    _lactoseFreeFilterSet = selectedFilters[Filter.lactoseFree]!;
+    _vegetarianFilterSet = selectedFilters[Filter.vegetarian]!;
+    _veganFilterSet = selectedFilters[Filter.vegan]!;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Filters'),
