@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:proj_04/providers/favorites_provider.dart';
+import 'package:proj_04/providers/filters_provider.dart';
 import 'package:proj_04/screens/categories.dart';
 import 'package:proj_04/screens/filter.dart';
 import 'package:proj_04/screens/meals.dart';
 import 'package:proj_04/widgets/drawer/main_drawer.dart';
-import 'package:proj_04/providers/favorites_provider.dart';
-import 'package:proj_04/providers/filters_provider.dart';
 
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});
