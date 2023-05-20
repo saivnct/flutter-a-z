@@ -43,18 +43,41 @@ class MealDetailScreen extends ConsumerWidget {
             onPressed: () {
               _toggleMealFavoriteStatus(ref, context);
             },
-            icon: Icon(isFavorited ? Icons.star : Icons.star_border),
-          )
+            //Using Implicit Animation method
+            //AnimatedSwitcher allows us to animate the transition from 1 widget to another
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) {
+                //the child here is 'Icon(isFavorited ? Icons.star : Icons.star_border)'
+                return RotationTransition(
+                  turns: Tween(
+                    begin: 0.5,
+                    end: 1.0,
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+              child: Icon(
+                isFavorited ? Icons.star : Icons.star_border,
+                key: ValueKey(
+                    isFavorited), //we need a key here to help AnimatedSwitcher detect that widget has been changed
+              ),
+            ),
+          ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network(
-              meal.imageUrl,
-              width: double.infinity,
-              height: 300,
-              fit: BoxFit.cover,
+            //Hero at destination must be the same content with origin
+            Hero(
+              tag: meal.id,
+              child: Image.network(
+                meal.imageUrl,
+                width: double.infinity,
+                height: 300,
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(height: 14),
             Text(
