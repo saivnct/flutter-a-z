@@ -1,6 +1,5 @@
 # project 04 - Meals App
 
-<!-- ![Example Image 1](readme/img1.png) ![Example Image 2](readme/img2.png) ![Example Image 3](readme/img3.png) -->
 <div class="image-container" align="center">
   <img src="readme/img1.png" alt="Image 1"  height="300">
   <img src="readme/img2.png" alt="Image 2"  height="300">
