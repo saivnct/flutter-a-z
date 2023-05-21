@@ -1,5 +1,7 @@
 # [Giangbb Studio]
 
+# Flutter A-Z
+
 A series of flutter projects from easy to advanced
 
 <div class="image-container" align="center">
