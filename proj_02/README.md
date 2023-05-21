@@ -1,3 +1,5 @@
+# [Giangbb Studio]
+
 # project 02 - Quiz App
 
 <div class="image-container" align="center">

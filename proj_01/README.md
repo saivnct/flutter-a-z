@@ -1,3 +1,5 @@
+# [Giangbb Studio]
+
 # project 01 - Rolling dice App
 
 <div class="image-container" align="center">
