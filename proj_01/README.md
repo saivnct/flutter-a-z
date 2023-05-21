@@ -1,16 +1,11 @@
-# proj_01
+# project 01 - Rolling dice App
 
-A new Flutter project.
+<div class="image-container" align="center">
+  <img src="readme/img1.png" alt="Image 1"  height="300">
+</div>
 
-## Getting Started
+## Getting Started With Flutter & Dart
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Dart basics: class, variables & types
+- Widget basics
+- Stateless vs Stateful Widgets
