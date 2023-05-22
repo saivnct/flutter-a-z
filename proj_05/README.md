@@ -5,7 +5,6 @@
 <div class="image-container" align="center">
   <img src="readme/img1.png" alt="Image 1"  height="300">
   <img src="readme/img2.png" alt="Image 2"  height="300">
-  <img src="readme/img3.png" alt="Image 3"  height="300">
 </div>
 
 #
@@ -23,3 +22,5 @@
 - Working with HTTP package
 - Fetching and transforming json Data
 - Error handling
+
+## Working with FutureBuilder Widget 
