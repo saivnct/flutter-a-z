@@ -18,12 +18,8 @@
 - Working with Form Validation
 - Getting Form Access via Global Key
 
-## Managing App-wide States
+## Working with HTTP request
 
-- Working with Riverpod
-- Working with Providers
-
-## Implement animation
-
-- Implement Explicit (via Animation Controller) & Implicit Animations
-- Implement multi-Screen Transitions
+- Working with HTTP package
+- Fetching and transforming json Data
+- Error handling
