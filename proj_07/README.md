@@ -1,16 +1,23 @@
-# proj_07
+# [Giangbb Studio]
 
-A new Flutter project.
+# project 07 - Chat App
 
-## Getting Started
+<div class="image-container" align="center">
+  <img src="readme/img1.png" alt="Image 1"  height="300">
+  <img src="readme/img2.png" alt="Image 2"  height="300">
+  <img src="readme/img3.png" alt="Image 3"  height="300">
+</div>
 
-This project is a starting point for a Flutter application.
+#
 
-A few resources to get you started if this is your first Flutter project:
+## Building Chat App Based On Firebase
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Working with Firebase Auth
+- Working with Firebase Storage
+- Working with Firebase FireStore
+- Working with Firebase Messaging
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Using device's features
+
+- Picking Image from device's gallery
+- Picking Image from device's camera
