@@ -1,0 +1,1 @@
+const GG_MAPS_API_KEYS = 'AIzaSyAMm2n0LUTcA0Ul2hruySIeDnUDRK5cRz4';

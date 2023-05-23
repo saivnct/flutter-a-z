@@ -1,0 +1,103 @@
+#google fonts
+flutter pub add google_fonts
+
+
+#https://pub.dev/packages/uuid
+flutter pub add uuid
+
+
+#manage cross widgets state and flutter application:
+flutter pub add flutter_riverpod
+
+#https://pub.dev/packages/http
+flutter pub add http
+
+
+
+#https://pub.dev/packages/image_picker
+flutter pub add image_picker
+    -> NOTE:
+        -IOS: we need to add the following keys to your Info.plist file
+            - NSPhotoLibraryUsageDescription - describe why your app needs permission for the photo library. This is called Privacy - Photo Library Usage Description in the visual editor.
+            - NSCameraUsageDescription - describe why your app needs access to the camera. This is called Privacy - Camera Usage Description in the visual editor.
+            - NSMicrophoneUsageDescription - describe why your app needs access to the microphone, if you intend to record videos. This is called Privacy - Microphone Usage Description in the visual editor.
+        -Android: No configuration required
+
+
+#https://pub.dev/packages/location
+flutter pub add location
+    -> NOTE:
+            -IOS: we need to add the following keys to your Info.plist file
+                - NSLocationWhenInUseUsageDescription
+
+            -Android: To use location background mode on Android, you have to use the enableBackgroundMode({bool enable}) API before accessing location in the background and adding necessary permissions. You should place the required permissions in your applications
+                <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+                <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
+
+https://pub.dev/packages/google_maps_flutter
+flutter pub add google_maps_flutter
+    -> NOTE: read document to config for Android & iOS
+        - Android:
+            1. Set the minSdkVersion in android/app/build.gradle
+                android {
+                    defaultConfig {
+                        minSdkVersion 20
+                    }
+                }
+
+            2. Specify your API key in the application manifest android/app/src/main/AndroidManifest.xml:
+                <manifest ...
+                  <application ...
+                    <meta-data android:name="com.google.android.geo.API_KEY"
+                               android:value="YOUR KEY HERE"/>
+        - iOS: Or in your swift code, specify your API key in the application delegate ios/Runner/AppDelegate.swift:
+                import UIKit
+                import Flutter
+                import GoogleMaps
+
+                @UIApplicationMain
+                @objc class AppDelegate: FlutterAppDelegate {
+                  override func application(
+                    _ application: UIApplication,
+                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+                  ) -> Bool {
+                    GMSServices.provideAPIKey("YOUR KEY HERE")
+                    GeneratedPluginRegistrant.register(with: self)
+                    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+                  }
+                }
+
+
+
+
+Using google maps GeoCoding API:
+    https://developers.google.com/maps/documentation/geocoding/requests-reverse-geocoding
+
+Using google maps Static API:
+https://developers.google.com/maps/documentation/maps-static/overview
+
+
+
+#Storing image to local storage
+#https://pub.dev/packages/path_provider
+flutter pub add path_provider
+
+#https://pub.dev/packages/path
+dart pub add path
+
+#https://pub.dev/packages/sqflite
+flutter pub add sqflite
+
+
+
+
+
+
+
+
+
+
+
+
+
